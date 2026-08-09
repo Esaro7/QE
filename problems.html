@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بنك المسائل | Quantum Elite 🧠</title>
+    <title>بنك المسائل الشامل (35 مسألة) | Quantum Elite 🧠</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
@@ -59,11 +59,11 @@
         }
 
         .problems-list {
-            max-width: 850px;
+            max-width: 900px;
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 28px;
         }
 
         .problem-card {
@@ -71,7 +71,7 @@
             border: 1px solid #334155;
             border-radius: 20px;
             padding: 24px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         .problem-title {
@@ -82,6 +82,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .problem-link {
+            font-size: 0.85rem;
+            color: #38bdf8;
+            text-decoration: none;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
         }
 
         .difficulty {
@@ -144,23 +156,41 @@
             border: 1px solid #10b981;
             border-radius: 12px;
             padding: 16px;
-            position: relative;
+        }
+
+        .sol-header {
+            color: #34d399;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #334155;
+            padding-bottom: 4px;
         }
 
         .solution-box pre {
             color: #34d399;
             font-family: monospace;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             direction: ltr;
             text-align: left;
             overflow-x: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .alt-sol pre {
+            color: #facc15;
+        }
+        .alt-header {
+            color: #facc15;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🧠 بنك مسائل التدريب للمسابقات</h1>
+        <h1>🧠 بنك المسائل الشامل (35 مسألة تدريبية)</h1>
         <div class="team-title">فريق Quantum Elite ⚡</div>
         <a href="index.html" class="back-btn">⬅️ العودة للعداد التنازلي</a>
     </div>
@@ -169,255 +199,912 @@
 
     <script>
         const problems = [
+            // ========================= ملف 1 (المسائل 1-13) =========================
             {
                 id: 1,
-                title: "1. قفزة الأرنب (Rabbit Jump)",
+                title: "1. A+B (Trial Problem)",
+                link: "https://codeforces.com/contest/1351/problem/A",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "أرنب يقف عند النقطة 0 ويريد الوصول للمسافة Y. ط طول قفزة الأرنب الواحدة X. احسب أقل عدد من القفزات للوصول أو تجاوز المسافة Y.",
-                input: "عددين صحيحين X و Y تفصل بينهما مسافة.",
-                output: "عدد صحيح واحد يمثل عدد القفزات.",
-                exampleInput: "5 10",
-                exampleOutput: "2",
-                solution: `x, y = map(int, input().split())
-jumps = y // x
-if y % x != 0:
-    jumps += 1
-print(jumps)`
+                text: "لديك عددين صحيحين A و B قم بجمعهما وطباعة الناتج لكل حالة اختبار.",
+                input: "السطر الأول يحتوي على عدد حالات الاختبار t. يلي ذلك t أسطر في كل سطر عددين A و B.",
+                output: "اطبع ناتج الجمع لكل حالة في سطر منفصل.",
+                exampleInput: "4\n1 5\n314 159\n-3 3\n13 37",
+                exampleOutput: "6\n473\n0\n50",
+                sol1: `# الحل الأساسي: قراءة t ثم تكرار العملية t من المرات
+t = int(input())  # قراءة عدد حالات الاختبار
+for _ in range(t):
+    a, b = map(int, input().split())  # قراءة العددين وتحويلهما إلى أعداد صحيحة
+    print(a + b)  # طباعة المجموع المباشر`,
+                sol2: `# حل بديل: استخدام List Comprehension لجمع المدخلات وطباعتها
+t = int(input())
+results = [sum(map(int, input().split())) for _ in range(t)]
+print(*results, sep='\\n')  # طباعة جميع نتائج القائمة كل واحدة في سطر`
             },
             {
                 id: 2,
-                title: "2. الطالب المتميز (Top Student)",
+                title: "2. Next Alphabet",
+                link: "https://atcoder.jp/contests/abc151/tasks/abc151_a",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "يعطيك البرنامج عدد الطلاب N متبوعاً بأسمائهم ودرجاتهم. اطبع اسم الطالب صاحب أعلى درجة.",
-                input: "السطر الأول N، يليها N أسطر يحتوي كل سطر على اسم الطالب ودرجته.",
-                output: "اسم الطالب صاحب أعلى درجة.",
-                exampleInput: "3\nAhmed 85\nSaeed 92\nMona 78",
-                exampleOutput: "Saeed",
-                solution: `n = int(input())
-t = []
-for i in range(n):
-    name, score = input().split()
-    t.append([int(score), name])
-t.sort()
-print(t[-1][1])`
+                text: "لديك حرف من حروف اللغة الإنجليزية، المطلوب طباعة الحرف الذي يليه مباشرة في الترتيب الأبجدي.",
+                input: "السطر الأول يحتوي على حرف إنجليزي صغير (ما عدا z).",
+                output: "اطبع الحرف التالي.",
+                exampleInput: "a",
+                exampleOutput: "b",
+                sol1: `# الحل الأساسي: تحويل الحرف لرقم ASCII وإضافة 1 ثم إرجاعه لحرف
+c = input().strip()  # قراءة الحرف ورسمه
+next_char = chr(ord(c) + 1)  # ord تعطي رمز ASCII و chr تعيد الحرف بعد زيادة 1
+print(next_char)`,
+                sol2: `# حل بديل: البحث في السلسلة الأبجدية مباشرة
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+c = input().strip()
+idx = alphabet.index(c)  # إيجاد موقع الحرف
+print(alphabet[idx + 1])  # طباعة الحرف الذي يليه`
             },
             {
                 id: 3,
-                title: "3. أطول تتابع متتالي (Longest Streak)",
-                difficulty: "medium",
-                difficultyText: "متوسطة",
-                text: "يعطيك قائمة من N من الأرقام، احسب طول أطول سلسلة متتالية متصلة لنفس الرقم بدون انقطاع.",
-                input: "السطر الأول N، السطر الثاني يحتوي N من الأرقام.",
-                output: "طول أطول تتابع متصل.",
-                exampleInput: "7\n1 1 2 2 2 1 3",
-                exampleOutput: "3",
-                solution: `n = int(input())
-numbers = list(map(int, input().split()))
-cs = ms = 1
-for i in range(1, n):
-    if numbers[i] == numbers[i - 1]:
-        cs += 1
-    else:
-        cs = 1
-    ms = max(ms, cs)
-print(ms)`
+                title: "3. Word Capitalization",
+                link: "https://codeforces.com/contest/281/problem/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "لديك كلمة والمطلوب تحويل أول حرف فقط فيها إلى Capital Letter مع ترك باقي الكلمة كما هي.",
+                input: "كلمة واحدة طولها لا يتجاوز 1000 حرف.",
+                output: "اطبع الكلمة بعد التعديل.",
+                exampleInput: "ApPLe",
+                exampleOutput: "ApPLe",
+                sol1: `# الحل الأساسي: تكبير الحرف الأول ودمجه مع بقية الكلمة
+s = input().strip()
+print(s[0].upper() + s[1:])  # تحويل الحرف الأول فقط ودمج باقي النصوص`,
+                sol2: `# حل بديل: تحويل السلسلة لقائمة حروف والتعديل على العنصر الأول
+s = list(input().strip())
+s[0] = s[0].upper()
+print("".join(s))`
             },
             {
                 id: 4,
-                title: "4. مجموع الأعداد الزوجية (Even Sum)",
+                title: "4. Watermelon",
+                link: "https://codeforces.com/contest/4/problem/A",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "اكتب برنامجاً يقرأ قائمة من N من الأرقام ويحسب مجموع الأعداد الزوجية فقط فيها.",
-                input: "السطر الأول N، السطر الثاني يحتوي N أرقام.",
-                output: "مجموع الأرقام الزوجية.",
-                exampleInput: "5\n1 2 3 4 6",
-                exampleOutput: "12",
-                solution: `n = int(input())
-nums = list(map(int, input().split()))
-even_sum = sum(x for x in nums if x % 2 == 0)
-print(even_sum)`
+                text: "هل يمكن تقسيم بطيخة وزنها w كجم إلى قسمين بحيث يكون وزن كل قسم عدداً زوجياً موجباً؟",
+                input: "عدد صحيح w (وزن البطيخة) حيث 1 <= w <= 100.",
+                output: "اطبع YES إذا أمكن أو NO إذا لم يمكن.",
+                exampleInput: "8",
+                exampleOutput: "YES",
+                sol1: `# الحل الأساسي: الشرط أن يكون الوزن زوجياً وأكبر من 2 (لأن 2 تنقسم لـ 1 و 1 وهما فرديان)
+w = int(input())
+if w > 2 and w % 2 == 0:
+    print("YES")
+else:
+    print("NO")`,
+                sol2: `# حل بديل: كتابة الشرط بسطر واحد باستخدام Ternary Operator
+w = int(input())
+print("YES" if w > 2 and w % 2 == 0 else "NO")`
             },
             {
                 id: 5,
-                title: "5. الجملة العكسية (Reverse Sentence)",
+                title: "5. Domino piling / Banana Sale",
+                link: "https://codeforces.com/contest/546/problem/A",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "اعكس ترتيب الكلمات في جملة معطاة مع الحفاظ على الكلمات كما هي.",
-                input: "نص يحتوي على كلمات تفصلها مساحات.",
-                output: "الجملة بعد العكس.",
-                exampleInput: "Dhofar Competitive Programming Contest",
-                exampleOutput: "Contest Programming Competitive Dhofar",
-                solution: `words = input().split()
-print(" ".join(words[::-1]))`
+                text: "سعر الموزة الأولى k والتالية 2k والـ w تكلف w*k. لديك n ريال. كم المبلغ الإضافي المطلوب الاستقراض للوصول للهدف؟",
+                input: "ثلاثة أعداد k (سعر الموزة الأولى), n (المال الحالي), w (عدد الموز المطلوب).",
+                output: "المبلغ المطلوبة استلافه (اطبع 0 إذا كان مالك يكفي).",
+                exampleInput: "3 17 4",
+                exampleOutput: "13",
+                sol1: `# الحل الأساسي: استخدام المجموع التراكمي لسلسلة الحساب
+k, n, w = map(int, input().split())
+total_cost = k * (w * (w + 1)) // 2  # قانون مجموع الأعداد من 1 إلى w ضرب k
+borrow = total_cost - n
+print(max(0, borrow))  # إذا كان المبلغ سالب أو صفراً يعني لا يحتاج استلاف`,
+                sol2: `# حل بديل: حساب المجموع باستخدام Loop
+k, n, w = map(int, input().split())
+total = sum(i * k for i in range(1, w + 1))
+print(max(0, total - n))`
             },
             {
                 id: 6,
-                title: "6. أقصى عنصر وموقعه (Max Element & Index)",
+                title: "6. Distinct Numbers (Distinct / Duplicate Check)",
+                link: "https://atcoder.jp/contests/abc154/tasks/abc154_c",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "جد أكبر قيمة في القائمة واطبع قيمتها وموقعها (1-based index). في حال التكرار اطبع أول موقع.",
-                input: "السطر الأول N، السطر الثاني N أرقام.",
-                output: "القيمة ثم موقعها تفصلهما مسافة.",
-                exampleInput: "4\n10 50 30 50",
-                exampleOutput: "50 2",
-                solution: `n = int(input())
-nums = list(map(int, input().split()))
-max_val = max(nums)
-idx = nums.index(max_val) + 1
-print(f"{max_val} {idx}")`
+                text: "حدد ما إذا كانت جميع عناصر المصفوفة فريدة (لا يوجد تكرار) أم لا.",
+                input: "السطر الأول N، السطر الثاني N أعداد.",
+                output: "اطبع YES إذا كانت جميع العناصر غير مكررة، و NO إذا وجد تكرار.",
+                exampleInput: "5\n2 6 1 4 5",
+                exampleOutput: "YES",
+                sol1: `# الحل الأساسي: مقارنة طول القائمة مع طول المجموع (Set) التي تزيل التكرار
+n = int(input())
+a = list(map(int, input().split()))
+if len(set(a)) == n:  # إذا تساوى الحجم فهذا يعني عدم وجود تكرار
+    print("YES")
+else:
+    print("NO")`,
+                sol2: `# حل بديل: الفرز (Sorting) ثم مقارنة كل عنصر بالذي يليه
+n = int(input())
+a = sorted(map(int, input().split()))
+has_dup = any(a[i] == a[i+1] for i in range(n-1))
+print("NO" if has_dup else "YES")`
             },
             {
                 id: 7,
-                title: "7. الأرقام الفريدة (Unique Elements)",
-                difficulty: "medium",
-                difficultyText: "متوسطة",
-                text: "اطبع العناصر بدون تكرار وبنفس ترتيب ظهورها الأول في المدخلات.",
-                input: "السطر الأول N، السطر الثاني N أرقام.",
-                output: "الأرقام فريدة تفصلها مسافات.",
-                exampleInput: "6\n4 5 4 2 5 1",
-                exampleOutput: "4 5 2 1",
-                solution: `n = int(input())
-nums = list(map(int, input().split()))
-seen = set()
-res = []
-for x in nums:
-    if x not in seen:
-        seen.add(x)
-        res.append(x)
+                title: "7. Remove It",
+                link: "https://atcoder.jp/contests/abc191/tasks/abc191_b",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "قم بحذف جميع التكرارات للعنصر X من المصفوفة A وطباعة العناصر المتبقية بنفس الترتيب.",
+                input: "السطر الأول N و X، السطر الثاني N عنصر.",
+                output: "المصفوفة بعد الحذف تفصلها مسافات.",
+                exampleInput: "5 5\n3 5 6 5 4",
+                exampleOutput: "3 6 4",
+                sol1: `# الحل الأساسي: تصفية القائمة واستبعاد العنصر X
+n, x = map(int, input().split())
+a = list(map(int, input().split()))
+res = [num for num in a if num != x]  # تصفية العناصر التي لا تساوي x
+print(*res)  # طباعة عناصر القائمة تفصل بينها مسافة`,
+                sol2: `# حل بديل: استخدام دالة filter البرمجية
+n, x = map(int, input().split())
+a = list(map(int, input().split()))
+res = list(filter(lambda num: num != x, a))
 print(*res)`
             },
             {
                 id: 8,
-                title: "8. هل الكلمة بيلاندروم؟ (Palindrome Check)",
+                title: "8. Palindrome with replacements",
+                link: "https://atcoder.jp/contests/abc147/tasks/abc147_b",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "تحقق هل النص يقرأ من اليمين إلى اليسار مثل اليسار إلى اليمين (Case-insensitive).",
-                input: "نص مكون من كلمة واحدة.",
-                output: "اطبع YES أو NO.",
-                exampleInput: "Radar",
-                exampleOutput: "YES",
-                solution: `s = input().strip().lower()
-if s == s[::-1]:
-    print("YES")
-else:
-    print("NO")`
+                text: "احسب أقل عدد من التبديلات للحروف لجعلك الكلمة تنقراء بنفس الشكل من الاتجاهين (Palindrome).",
+                input: "كلمة لا يتجاوز طولها 100 حرف.",
+                output: "أقل عدد تغييرات مطلوب.",
+                exampleInput: "redcoder",
+                exampleOutput: "1",
+                sol1: `# الحل الأساسي: مقارنة الحرف الأول مع الأخير، والثاني مع قبل الأخير حتى المنتصف
+s = input().strip()
+ans = 0
+n = len(s)
+for i in range(n // 2):
+    if s[i] != s[n - 1 - i]:  # إذا لم يتطابق الحرفان المقابلان
+        ans += 1  # نحتاج عملية تغيير واحدة لتعديلهما
+print(ans)`,
+                sol2: `# حل بديل: استخدام zip لمقارنة النص مع عكسه بنفس الوقت
+s = input().strip()
+ans = sum(1 for a, b in zip(s[:len(s)//2], s[::-1][:len(s)//2]) if a != b)
+print(ans)`
             },
             {
                 id: 9,
-                title: "9. المجموع التراكمي (Prefix Sum)",
+                title: "9. System of Equations",
+                link: "https://codeforces.com/problemset/problem/214/A",
                 difficulty: "medium",
                 difficultyText: "متوسطة",
-                text: "احسب قائمة المجموع التراكمي لقائمة أرقام معطاة.",
-                input: "السطر الأول N، السطر الثاني N أرقام.",
-                output: "عناصر المجموع التراكمي تفصلها مسافات.",
-                exampleInput: "4\n1 2 3 4",
-                exampleOutput: "1 3 6 10",
-                solution: `n = int(input())
-nums = list(map(int, input().split()))
-pref = []
-curr = 0
-for x in nums:
-    curr += x
-    pref.append(curr)
-print(*pref)`
+                text: "جد عدد الأزواج (a,b) بحيث a,b >= 0 والتي تحقق: a^2 + b = n و a + b^2 = m.",
+                input: "عددين صحيحين n و m.",
+                output: "عدد الأزواج التي تحقق النظام.",
+                exampleInput: "9 3",
+                exampleOutput: "1",
+                sol1: `# الحل الأساسي: تجريب جميع قيم a و b الممكنة (Brute Force)
+n, m = map(int, input().split())
+count = 0
+for a in range(1001):
+    for b in range(1001):
+        if a**2 + b == n and a + b**2 == m:
+            count += 1
+print(count)`,
+                sol2: `# حل بديل: تقليل التعقيد بالتعويض المباشر عن b من المعادلة الأولى b = n - a^2
+n, m = map(int, input().split())
+count = 0
+for a in range(int(n**0.5) + 1):  # a لا يمكن أن تتجاوز جذر n
+    b = n - a**2
+    if b >= 0 and a + b**2 == m:
+        count += 1
+print(count)`
             },
             {
                 id: 10,
-                title: "10. تدوير القائمة (Rotate Array)",
+                title: "10. Buying a TV Set / Linear Diophantine Eq",
+                link: "https://codeforces.com/problemset/problem/898/B",
                 difficulty: "medium",
                 difficultyText: "متوسطة",
-                text: "قم بتدوير القائمة نحو اليمين K خطوة.",
-                input: "السطر الأول N و K، السطر الثاني N أرقام.",
-                output: "القائمة بعد التدوير.",
-                exampleInput: "5 2\n1 2 3 4 5",
-                exampleOutput: "4 5 1 2 3",
-                solution: `n, k = map(int, input().split())
-nums = list(map(int, input().split()))
-k %= n
-res = nums[-k:] + nums[:-k] if k != 0 else nums
-print(*res)`
+                text: "لديك n, a, b. جد قيم غير سلبية x, y بحيث x*a + y*b = n.",
+                input: "ثلاثة أعداد n, a, b في أسطر منفصلة.",
+                output: "اطبع YES متبوعة بـ x و y إذا وجد حل، وإلا اطبع NO.",
+                exampleInput: "7\n2\n3",
+                exampleOutput: "YES\n2 1",
+                sol1: `# الحل الأساسي: تجريب جميع قيم x الممكنة والتحقق من إمكانية كسر الباقي على b
+n = int(input())
+a = int(input())
+b = int(input())
+
+found = False
+for x in range(n // a + 1):
+    rem = n - x * a
+    if rem % b == 0:  # إذا كان الباقي يقبل القسمة على b تماماً
+        y = rem // b
+        print("YES")
+        print(f"{x} {y}")
+        found = True
+        break
+
+if not found:
+    print("NO")`,
+                sol2: `# حل بديل: نفس الفكرة ولكن بالدوران حول قيمة y للبحث عن أقصر عدد مرات تكرار
+n = int(input())
+a = int(input())
+b = int(input())
+
+for y in range(n // b + 1):
+    if (n - y * b) % a == 0:
+        x = (n - y * b) // a
+        print(f"YES\\n{x} {y}")
+        exit()
+print("NO")`
             },
             {
                 id: 11,
-                title: "11. المفقود في التتابع (Missing Number)",
+                title: "11. Replace String With 'x'",
+                link: "https://atcoder.jp/contests/abc154/tasks/abc154_a",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "يعطيك قائمة تحتوي N-1 أرقام مختلفة في النطاق من 1 إلى N. جد الرقم المفقود.",
-                input: "السطر الأول N، السطر الثاني N-1 أرقام.",
-                output: "الرقم المفقود.",
-                exampleInput: "5\n1 2 4 5",
-                exampleOutput: "3",
-                solution: `n = int(input())
-nums = list(map(int, input().split()))
-expected_sum = n * (n + 1) // 2
-actual_sum = sum(nums)
-print(expected_sum - actual_sum)`
+                text: "استبدل كل حرف في النص S بالحرف 'x' مع الحفاظ على طول النص نفسه.",
+                input: "سلسلة نصية S.",
+                output: "السلسلة المستبدلة.",
+                exampleInput: "sarkar",
+                exampleOutput: "xxxxxx",
+                sol1: `# الحل الأساسي: ضرب الحرف 'x' بطول السلسلة النصية
+s = input().strip()
+print('x' * len(s))  # تكرار حرف x بعدد حروف السلسلة`,
+                sol2: `# حل بديل: استخدام الدالة re لتعديل الحروف أو التجميع النصي
+s = input().strip()
+print("".join(['x' for _ in s]))`
             },
             {
                 id: 12,
-                title: "12. عد الحروف المتحركة (Count Vowels)",
+                title: "12. Mix Juice",
+                link: "https://atcoder.jp/contests/abc171/tasks/abc171_b",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "احسب عدد حروف العلة (a, e, i, o, u) في نص معطى.",
-                input: "نص مكون من عدة كلمات.",
-                output: "عدد حروف العلة.",
-                exampleInput: "Hello World",
-                exampleOutput: "3",
-                solution: `s = input().lower()
-vowels = "aeiou"
-cnt = sum(1 for char in s if char in vowels)
-print(cnt)`
+                text: "اختر K عناصر من المصفوفة بحيث يكون مجموع أسعارها أقل ما يمكن.",
+                input: "السطر الأول N و K. السطر الثاني أسعار N عنصر.",
+                output: "أقل مجموع أرقام لـ K عناصر.",
+                exampleInput: "5 3\n50 10 20 40 30",
+                exampleOutput: "60",
+                sol1: `# الحل الأساسي: الفرز تصاعدياً ثم أخذ مجموع أول K عناصر
+n, k = map(int, input().split())
+prices = list(map(int, input().split()))
+prices.sort()  # ترتيب الأسعار من الأصغر للأكبر
+print(sum(prices[:k]))  # مجموع أول k عناصر صغيرة`,
+                sol2: `# حل بديل: استخدام دالة nsmallest من مكتبة heapq
+import heapq
+n, k = map(int, input().split())
+prices = list(map(int, input().split()))
+print(sum(heapq.nsmallest(k, prices)))`
             },
             {
                 id: 13,
-                title: "13. الزوج المستهدف (Two Sum)",
+                title: "13. Static Range Sum Queries",
+                link: "https://cses.fi/problemset/task/1646",
                 difficulty: "medium",
                 difficultyText: "متوسطة",
-                text: "جد هل يوجد عنصرين في القائمة مجموعهما يساوي القيمة Target.",
-                input: "السطر الأول N و Target، السطر الثاني N أرقام.",
-                output: "YES إذا وجد أو NO إذا لم يوجد.",
-                exampleInput: "4 9\n2 7 11 15",
-                exampleOutput: "YES",
-                solution: `n, target = map(int, input().split())
-nums = list(map(int, input().split()))
-seen = set()
-found = False
-for x in nums:
-    if target - x in seen:
-        found = True
-        break
-    seen.add(x)
-print("YES" if found else "NO")`
+                text: "احسب مجموع الأعداد في الفترة من L إلى R لعدة استعلامات Q بكفاءة عالية.",
+                input: "السطر الأول N و Q. السطر الثاني عناصر المصفوفة. يليها Q سطر يحتوي L و R.",
+                output: "المجموع لكل استعلام.",
+                exampleInput: "8 4\n3 2 4 5 1 1 5 3\n2 4\n5 6\n1 8\n3 3",
+                exampleOutput: "11\n2\n24\n4",
+                sol1: `# الحل الأساسي: بناء مصفوفة المجموع التراكمي (Prefix Sum) لتنفيذ كل استعلام بـ O(1)
+n, q = map(int, input().split())
+a = list(map(int, input().split()))
+
+pref = [0] * (n + 1)
+for i in range(n):
+    pref[i + 1] = pref[i] + a[i]  # تجهيز المجموع التراكمي
+
+for _ in range(q):
+    l, r = map(int, input().split())
+    # المجموع بالفترة [l, r] هو الفرق بين المجموع التراكمي عند r و l-1
+    print(pref[r] - pref[l - 1])`,
+                sol2: `# حل بديل: استخدام itertools.accumulate لتسريع تجهيز البادئة
+from itertools import accumulate
+import sys
+
+input = sys.stdin.read
+data = input().split()
+n, q = int(data[0]), int(data[1])
+a = [int(x) for x in data[2:n+2]]
+pref = [0] + list(accumulate(a))
+
+idx = n + 2
+out = []
+for _ in range(q):
+    l, r = int(data[idx]), int(data[idx+1])
+    out.append(str(pref[r] - pref[l-1]))
+    idx += 2
+print("\\n".join(out))`
             },
+
+            // ========================= ملف 2 (المسائل 14-17) =========================
             {
                 id: 14,
-                title: "14. المضروب التكراري (Factorial)",
+                title: "14. Same Name",
+                link: "https://atcoder.jp/contests/abc216/tasks/abc216_b",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "احسب قيمة N! (مضروب العدد N).",
-                input: "عدد صحيح N حيث (0 <= N <= 12).",
-                output: "قيمة المضروب.",
-                exampleInput: "5",
-                exampleOutput: "120",
-                solution: `import math
+                text: "حدد ما إذا كان يوجد شخصان لهما نفس اسم العائلة S ونفس الاسم الشخصي T.",
+                input: "السطر الأول N، ثم N أسطر يحتوي كل منها على S و T.",
+                output: "اطبع Yes إذا وجد تطابق، وإلا اطبع No.",
+                exampleInput: "3\ntanaka taro\nsato hanako\ntanaka taro",
+                exampleOutput: "Yes",
+                sol1: `# الحل الأساسي: استخدام Set لحفظ الاسم الكامل كـ tuple والتحقق من وجوده
 n = int(input())
-print(math.factorial(n))`
+names = set()
+found = False
+
+for _ in range(n):
+    full_name = tuple(input().split())  # قراءة (الاسم الأول, العائلة)
+    if full_name in names:
+        found = True
+    names.add(full_name)
+
+print("Yes" if found else "No")`,
+                sol2: `# حل بديل: مقارنة عدد العناصر الفريدة مع العدد الكلي N
+n = int(input())
+people = [input().strip() for _ in range(n)]
+print("Yes" if len(set(people)) < n else "No")`
             },
             {
                 id: 15,
-                title: "15. أطول كلمة في النص (Longest Word)",
+                title: "15. The Second Highest Mountain",
+                link: "https://atcoder.jp/contests/abc201/tasks/abc201_b",
                 difficulty: "easy",
                 difficultyText: "سهلة",
-                text: "جد أطول كلمة في جملة وطولها. في حال التساوي اختر الأولى.",
-                input: "جملة نصية.",
-                output: "الكلمة وطولها تفصلهما مسافة.",
-                exampleInput: "Competitive Programming Is Amazing",
-                exampleOutput: "Competitive 11",
-                solution: `words = input().split()
-longest = max(words, key=len)
-print(f"{longest} {len(longest)}")`
+                text: "لديك N جبل بأسماء وارتفاعات مختلفة. اطبع اسم الجبل صاحب ثاني أعلى ارتفاع.",
+                input: "السطر الأول N، ثم N أسطر تحتوي على اسم الجبل S وارتفاعه T.",
+                output: "اسم الجبل الثاني ارتفاعاً.",
+                exampleInput: "3\nEverest 8849\nK2 8611\nKangchenjunga 8586",
+                exampleOutput: "K2",
+                sol1: `# الحل الأساسي: حفظ البيانات كـ (الارتفاع, الاسم) وفرزها تنازلياً
+n = int(input())
+mountains = []
+
+for _ in range(n):
+    s, t = input().split()
+    mountains.append((int(t), s))  # الارتفاع أولاً لسهولة الفرز بناء عليه
+
+mountains.sort(reverse=True)  # الفرز من الأعلى للأقل
+print(mountains[1][1])  # الجبل الثاني هو صاحب المؤشر 1`,
+                sol2: `# حل بديل: استخدام دالة nlargest من heapq
+import heapq
+n = int(input())
+mountains = []
+for _ in range(n):
+    s, t = input().split()
+    mountains.append((int(t), s))
+top2 = heapq.nlargest(2, mountains)
+print(top2[1][1])`
+            },
+            {
+                id: 16,
+                title: "16. Horse Race Ranking",
+                link: "https://atcoder.jp/contests/abc440/tasks/abc440_b",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "معطى أزمنة N حصان. جد أرقام الأحصنة التي حصلت على المراكز الأول والثاني والثالث (أقل أزمنة).",
+                input: "السطر الأول N. السطر الثاني أزمنة الأحصنة.",
+                output: "أرقام الأحصنة بالترتيب تفصلها مسافة.",
+                exampleInput: "4\n100 110 105 95",
+                exampleOutput: "4 1 3",
+                sol1: `# الحل الأساسي: ربط الزمن برقم الحصان (1-based index) ثم الفرز تصاعدياً
+n = int(input())
+times = list(map(int, input().split()))
+
+# إنشاء قائمة بها (الزمن, رقم الحصان)
+horses = [(times[i], i + 1) for i in range(n)]
+horses.sort()  # الفرز حسب أقل زمن
+
+# طباعة أرقام أول 3 أحصنة
+print(horses[0][1], horses[1][1], horses[2][1])`,
+                sol2: `# حل بديل: ترتيب المؤشرات حسب قيم الأسطر
+n = int(input())
+times = list(map(int, input().split()))
+sorted_indices = sorted(range(n), key=lambda i: times[i])
+print(sorted_indices[0] + 1, sorted_indices[1] + 1, sorted_indices[2] + 1)`
+            },
+            {
+                id: 17,
+                title: "17. Make Product Equal One / Remove One Element Sum M",
+                link: "https://codeforces.com/contest/1206/problem/B",
+                difficulty: "medium",
+                difficultyText: "متوسطة",
+                text: "أقل تكلفة تجعل حاصل ضرب جميع عناصر المصفوفة 1 (إضافة/طرح 1 يكلف عملة).",
+                input: "السطر الأول N، السطر الثاني عناصر المصفوفة.",
+                output: "أقل تكلفة للوصول لحاصل الضرب 1.",
+                exampleInput: "5\n-5 -3 5 3 0",
+                exampleOutput: "13",
+                sol1: `# الحل الأساسي: تحويل كل عنصر لـ 1 أو -1 ومراعاة الأصفار والأعداد السالبة
+n = int(input())
+a = list(map(int, input().split()))
+
+cost = 0
+neg_count = 0
+zero_count = 0
+
+for x in a:
+    if x > 0:
+        cost += (x - 1)  # تكلفة تحويله إلى 1
+    elif x < 0:
+        cost += (-1 - x) # تكلفة تحويله إلى -1
+        neg_count += 1
+    else:
+        cost += 1        # تحويل 0 إلى 1 أو -1 يحتاج خطوة واحدة
+        zero_count += 1
+
+# إذا كان عدد الأرقام السالبة فردياً ولا توجد أصفار، نضيف 2 لتحويل أحد الأرقام
+if neg_count % 2 != 0 and zero_count == 0:
+    cost += 2
+
+print(cost)`,
+                sol2: `# حل بديل: تتبع ضرب الإشارات بشكل مستقل
+n = int(input())
+a = list(map(int, input().split()))
+cost = sum(x - 1 if x > 0 else (-1 - x if x < 0 else 1) for x in a)
+negs = sum(1 for x in a if x < 0)
+zeros = a.count(0)
+print(cost + (2 if negs % 2 != 0 and zeros == 0 else 0))`
+            },
+
+            // ========================= مسائل إضافية لاستكمال الـ 35 مسألة =========================
+            {
+                id: 18,
+                title: "18. Remove One For Sum M",
+                link: "https://atcoder.jp/contests/abc429/tasks/abc429_b",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "هل يمكن حذف عنصر واحد فقط من المصفوفة بحيث يكون مجموع العناصر المتبقية مساوياً لـ M؟",
+                input: "السطر الأول N و M. السطر الثاني N أعداد.",
+                output: "اطبع Yes أو No.",
+                exampleInput: "4 10\n3 5 2 7",
+                exampleOutput: "Yes",
+                sol1: `# الحل الأساسي: حساب المجموع الكلي ثم التحقق إن كان المجموع - M موجوداً كعنصر
+n, m = map(int, input().split())
+a = list(map(int, input().split()))
+
+total_sum = sum(a)
+needed = total_sum - m  # العنصر الواجب حذفه
+
+if needed in a:
+    print("Yes")
+else:
+    print("No")`,
+                sol2: `# حل بديل: تجرب حذف كل عنصر في الدوران
+n, m = map(int, input().split())
+a = list(map(int, input().split()))
+total = sum(a)
+ans = any(total - x == m for x in a)
+print("Yes" if ans else "No")`
+            },
+            {
+                id: 19,
+                title: "19. Way Too Long Words",
+                link: "https://codeforces.com/problemset/problem/71/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "إذا كان طول الكلمة أكبر من 10 حروف استبدلها باختصار (الحرف الأول + عدد الحروف المحذوفة + الحرف الأخير).",
+                input: "عدد حالات الاختبار n ثم n كلمات.",
+                output: "الكلمة بعد الاختصار.",
+                exampleInput: "2\nlocalization\ncat",
+                exampleOutput: "l10n\ncat",
+                sol1: `# الحل الأساسي: فحص طول السلسلة النصية
+n = int(input())
+for _ in range(n):
+    word = input().strip()
+    if len(word) > 10:
+        # الحرف الأول + عدد الحروف الوسطى + الحرف الأخير
+        print(f"{word[0]}{len(word) - 2}{word[-1]}")
+    else:
+        print(word)`,
+                sol2: `# حل بديل: استخدام دالة مختصرة
+def shorten(w):
+    return f"{w[0]}{len(w)-2}{w[-1]}" if len(w) > 10 else w
+
+n = int(input())
+for _ in range(n):
+    print(shorten(input().strip()))`
+            },
+            {
+                id: 20,
+                title: "20. Bit++",
+                link: "https://codeforces.com/problemset/problem/282/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "حساب قيمة المتغير x المبدئي (0) بعد تطبيق عدة عمليات زيادة (++X, X++) أو نقصان (--X, X--).",
+                input: "عدد العمليات n يليها n عمليات.",
+                output: "قيمة x النهائية.",
+                exampleInput: "2\n++X\nX--",
+                exampleOutput: "0",
+                sol1: `# الحل الأساسي: البحث عن إشارة + أو - في السلسلة
+n = int(input())
+x = 0
+for _ in range(n):
+    statement = input()
+    if '+' in statement:
+        x += 1
+    else:
+        x -= 1
+print(x)`,
+                sol2: `# حل بديل: حساب الفروقات سطر بسطر
+n = int(input())
+x = sum(1 if '+' in input() else -1 for _ in range(n))
+print(x)`
+            },
+            {
+                id: 21,
+                title: "21. Team",
+                link: "https://codeforces.com/problemset/problem/231/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "3 أصدقاء يقررون حل مسألة إذا كان على الأقل اثنان منهم متأكدين من الحل. احسب عدد المسائل التي سيحلونها.",
+                input: "عدد المسائل n، ثم n أسطر بكل منها 3 أرقام (1 يعني موافق, 0 يعني غير موافق).",
+                output: "عدد المسائل المحلولة.",
+                exampleInput: "3\n1 1 0\n1 1 1\n1 0 0",
+                exampleOutput: "2",
+                sol1: `# الحل الأساسي: مجموع الآراء لكل مسألة يجب أن يكون >= 2
+n = int(input())
+solved = 0
+for _ in range(n):
+    p, v, t = map(int, input().split())
+    if p + v + t >= 2:
+        solved += 1
+print(solved)`,
+                sol2: `# حل بديل: حساب المجموع باستخدام sum للقائمة
+n = int(input())
+solved = sum(1 for _ in range(n) if sum(map(int, input().split())) >= 2)
+print(solved)`
+            },
+            {
+                id: 22,
+                title: "22. Bear and Big Brother",
+                link: "https://codeforces.com/problemset/problem/791/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "وزن ليمك a ووزن بوب b. يتضاعف وزن ليمك 3 مرات وبوب مرتين سنوياً. بعد كم سنة يصبح ليمك أكبر وزناً من بوب؟",
+                input: "وزنا ليمك وبوب a و b حيث a <= b.",
+                output: "عدد السنوات.",
+                exampleInput: "4 7",
+                exampleOutput: "2",
+                sol1: `# الحل الأساسي: تكرار زيادة الوزن حتى يصبح a > b
+a, b = map(int, input().split())
+years = 0
+while a <= b:
+    a *= 3
+    b *= 2
+    years += 1
+print(years)`,
+                sol2: `# حل بديل: استخدام المعادلات اللوجاريتمية للحساب المباشر
+import math
+a, b = map(int, input().split())
+years = math.floor(math.log(b / a, 1.5)) + 1
+print(years)`
+            },
+            {
+                id: 23,
+                title: "23. Elephant",
+                link: "https://codeforces.com/problemset/problem/617/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "الفيل يستطيع قطع خطوة بطول 1, 2, 3, 4, أو 5. احسب أقل عدد خطوات للوصول للنقطة x.",
+                input: "الموقع x.",
+                output: "أقل عدد من الخطوات.",
+                exampleInput: "12",
+                exampleOutput: "3",
+                sol1: `# الحل الأساسي: القسمة على 5 وأخذ السقف (Ceil)
+x = int(input())
+steps = x // 5
+if x % 5 != 0:
+    steps += 1
+print(steps)`,
+                sol2: `# حل بديل: استخدام القانون الرياضي السريع (x + 4) // 5
+x = int(input())
+print((x + 4) // 5)`
+            },
+            {
+                id: 24,
+                title: "24. Soldiers and Bananas / Wrong Subtraction",
+                link: "https://codeforces.com/problemset/problem/977/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "إذا كان الرقم ينتهي بـ 0 نقسمه على 10، وإلا ننقص منه 1. كرر هذه العملية k مرات.",
+                input: "العدد n وعدد العمليات k.",
+                output: "الناتج النهائي.",
+                exampleInput: "512 2",
+                exampleOutput: "50",
+                sol1: `# الحل الأساسي: تكرار الخوارزمية k مرة
+n, k = map(int, input().split())
+for _ in range(k):
+    if n % 10 == 0:
+        n //= 10
+    else:
+        n -= 1
+print(n)`,
+                sol2: `# حل بديل: التعامل معها بسلسلة نصية
+n, k = map(int, input().split())
+for _ in range(k):
+    n = n // 10 if n % 10 == 0 else n - 1
+print(n)`
+            },
+            {
+                id: 25,
+                title: "25. Stones on the Table",
+                link: "https://codeforces.com/problemset/problem/266/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "أقل عدد من الأحجار يجب إزالتها حتى لا يتجاور حجران لهما نفس اللون.",
+                input: "السطر الأول n، السطر الثاني ألوان الأحجار S.",
+                output: "عدد الأحجار الواجب إزالتها.",
+                exampleInput: "3\nRRG",
+                exampleOutput: "1",
+                sol1: `# الحل الأساسي: مقارنة الحجر الحالي بالحجر الذي يليه مباشرة
+n = int(input())
+s = input().strip()
+removals = 0
+for i in range(n - 1):
+    if s[i] == s[i + 1]:
+        removals += 1
+print(removals)`,
+                sol2: `# حل بديل: استخدام zip للربط والسرد
+n = int(input())
+s = input().strip()
+print(sum(1 for a, b in zip(s, s[1:]) if a == b))`
+            },
+            {
+                id: 26,
+                title: "26. Boy or Girl",
+                link: "https://codeforces.com/problemset/problem/236/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "إذا كان عدد الحروف الفريدة في الاسم زوجياً فالشخص فتاة (CHAT WITH HER!) وإلا فهو شاب (IGNORE HIM!).",
+                input: "اسم المستخدم.",
+                output: "الرسالة المناسبة.",
+                exampleInput: "wzia",
+                exampleOutput: "CHAT WITH HER!",
+                sol1: `# الحل الأساسي: حساب الحروف الفريدة باستخدام set
+s = input().strip()
+unique_chars = len(set(s))
+if unique_chars % 2 == 0:
+    print("CHAT WITH HER!")
+else:
+    print("IGNORE HIM!")`,
+                sol2: `# حل بديل: استخدام الصيغة المختصرة
+print("CHAT WITH HER!" if len(set(input().strip())) % 2 == 0 else "IGNORE HIM!")`
+            },
+            {
+                id: 27,
+                title: "27. Anton and Danik",
+                link: "https://codeforces.com/problemset/problem/734/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "حدد الفائز في اللعبة بناءً على نتائج الجولات (A لـ Anton و D لـ Danik).",
+                input: "السطر الأول n عدد الجولات، السطر الثاني نتائج الجولات.",
+                output: "Anton أو Danik أو Friendship.",
+                exampleInput: "6\nADAAAA",
+                exampleOutput: "Anton",
+                sol1: `# الحل الأساسي: عد الانتصارات لكل طرف باستخدام count
+n = int(input())
+s = input().strip()
+anton = s.count('A')
+danik = s.count('D')
+
+if anton > danik:
+    print("Anton")
+elif danik > anton:
+    print("Danik")
+else:
+    print("Friendship")`,
+                sol2: `# حل بديل: حساب الفرق السريع
+n = int(input())
+s = input().strip()
+diff = s.count('A') - s.count('D')
+print("Anton" if diff > 0 else ("Danik" if diff < 0 else "Friendship"))`
+            },
+            {
+                id: 28,
+                title: "28. Translation",
+                link: "https://codeforces.com/problemset/problem/41/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "تأكد هل الكلمة t هي عكس الكلمة s تماماً.",
+                input: "السطر الأول s والسطر الثاني t.",
+                output: "YES أو NO.",
+                exampleInput: "code\nedoc",
+                exampleOutput: "YES",
+                sol1: `# الحل الأساسي: عكس الكلمة الأولى ومقارنتها بالثانية
+s = input().strip()
+t = input().strip()
+if s[::-1] == t:
+    print("YES")
+else:
+    print("NO")`,
+                sol2: `# حل بديل: المقارنة باستخدام reversed و join
+s = input().strip()
+t = input().strip()
+print("YES" if "".join(reversed(s)) == t else "NO")`
+            },
+            {
+                id: 29,
+                title: "29. Vanya and Fence",
+                link: "https://codeforces.com/problemset/problem/677/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "عرض الشخص ذي الارتفاع أكبر من h هو 2، والآخرين 1. احسب العرض الكلي المطلوب للشارع.",
+                input: "السطر الأول n و h. السطر الثاني أطوال الأصدقاء.",
+                output: "العرض الكلي.",
+                exampleInput: "3 7\n4 5 14",
+                exampleOutput: "4",
+                sol1: `# الحل الأساسي: حساب عرض كل شخص يدوياً
+n, h = map(int, input().split())
+a = list(map(int, input().split()))
+
+width = 0
+for height in a:
+    if height > h:
+        width += 2
+    else:
+        width += 1
+print(width)`,
+                sol2: `# حل بديل: التجميع المباشر بحساب المنطق الشرطي
+n, h = map(int, input().split())
+a = list(map(int, input().split()))
+print(sum(2 if x > h else 1 for x in a))`
+            },
+            {
+                id: 30,
+                title: "30. Beautiful Year",
+                link: "https://codeforces.com/problemset/problem/271/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "إيجاد أصغر سنة أكبر من y تتكون من أرقام مختلفة تماماً.",
+                input: "السنة y.",
+                output: "السنة الجميلة التالية.",
+                exampleInput: "1987",
+                exampleOutput: "1988 -> 2013",
+                sol1: `# الحل الأساسي: زيادة السنة بـ 1 والفحص حتى تكون جميع أرقامها فريدة
+y = int(input())
+while True:
+    y += 1
+    if len(set(str(y))) == len(str(y)):
+        print(y)
+        break`,
+                sol2: `# حل بديل: إنشاء دالة للتحقق والبحث
+def is_beautiful(year):
+    s = str(year)
+    return len(set(s)) == len(s)
+
+y = int(input()) + 1
+while not is_beautiful(y):
+    y += 1
+print(y)`
+            },
+            {
+                id: 31,
+                title: "31. In Search of an Easy Problem",
+                link: "https://codeforces.com/problemset/problem/1030/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "إذا أجاب شخص واحد على الأقل بـ 1 فالمسألة صعبة (HARD)، وإلا فهي سهلة (EASY).",
+                input: "السطر الأول n عدد الأشخاص، السطر الثاني إجاباتهم.",
+                output: "HARD أو EASY.",
+                exampleInput: "3\n0 0 1",
+                exampleOutput: "HARD",
+                sol1: `# الحل الأساسي: التحقق من وجود الرقم 1 في المدخلات
+n = int(input())
+a = list(map(int, input().split()))
+if 1 in a:
+    print("HARD")
+else:
+    print("EASY")`,
+                sol2: `# حل بديل: استخدام any للفحص المباشر
+n = int(input())
+a = list(map(int, input().split()))
+print("HARD" if any(x == 1 for x in a) else "EASY")`
+            },
+            {
+                id: 32,
+                title: "32. George and Accommodation",
+                link: "https://codeforces.com/problemset/problem/467/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "احسب عدد الغرف التي تتسع لجرج وصديقه معا (أي بها متسع لشخصين على الأقل p + 2 <= q).",
+                input: "عدد الغرف n ثم n أسطر تحتوي p (الساكنين حالياً) و q (السعة الكلية).",
+                output: "عدد الغرف المتاحة.",
+                exampleInput: "3\n1 1\n2 2\n3 5",
+                exampleOutput: "1",
+                sol1: `# الحل الأساسي: حظر الغرف التي بها مكان متبقي >= 2
+n = int(input())
+available = 0
+for _ in range(n):
+    p, q = map(int, input().split())
+    if q - p >= 2:
+        available += 1
+print(available)`,
+                sol2: `# حل بديل: اختصار الفحص بسطر واحد
+n = int(input())
+print(sum(1 for _ in range(n) if eval("lambda p, q: q - p >= 2")(*map(int, input().split()))))`
+            },
+            {
+                id: 33,
+                title: "33. Magnets",
+                link: "https://codeforces.com/problemset/problem/344/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "احسب عدد المجموعات المنفصلة من المغناطيسات المصفوفة جنبًا إلى جنب (تتكون مجموعة جديدة عندما يتجاور قطبان متماثلان).",
+                input: "عدد المغناطيسات n، ثم وضعية كل مغناطيس (10 أو 01).",
+                output: "عدد المجموعات.",
+                exampleInput: "6\n10\n10\n10\n01\n10\n10",
+                exampleOutput: "3",
+                sol1: `# الحل الأساسي: زيادة عدد المجموعات عند تغير الشكل عن المغناطيس السابق
+n = int(input())
+groups = 0
+prev = ""
+for _ in range(n):
+    curr = input().strip()
+    if curr != prev:
+        groups += 1
+        prev = curr
+print(groups)`,
+                sol2: `# حل بديل: قراءة جميع المدخلات ومقارنة العناصر المتجاورة
+import sys
+data = sys.stdin.read().split()
+n = int(data[0])
+mags = data[1:]
+print(1 + sum(1 for i in range(n-1) if mags[i] != mags[i+1]))`
+            },
+            {
+                id: 34,
+                title: "34. Calculating Function",
+                link: "https://codeforces.com/problemset/problem/486/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "احسب قيمة الدالة f(n) = -1 + 2 - 3 + 4 - 5 + ... + (-1)^n * n.",
+                input: "العدد n.",
+                output: "قيمة f(n).",
+                exampleInput: "4",
+                exampleOutput: "2",
+                sol1: `# الحل الأساسي: استخدام القاعدة الرياضية المباشرة لتفادي الوقت (O(1))
+n = int(input())
+if n % 2 == 0:
+    print(n // 2)
+else:
+    print(-(n + 1) // 2)`,
+                sol2: `# حل بديل: كتابة الصيغة بسطر واحد
+n = int(input())
+print(n // 2 if n % 2 == 0 else -(n // 2 + 1))`
+            },
+            {
+                id: 35,
+                title: "35. Presents",
+                link: "https://codeforces.com/problemset/problem/136/A",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "يعطيك من أعطى هدية لمن، والمطلوب طباعة من استلم هدية من من بالترتيب.",
+                input: "السطر الأول n عدد الأصدقاء، السطر الثاني من أعطى هدايا للأصدقاء 1..n.",
+                output: "القائمة المعكوسة للهدايا.",
+                exampleInput: "4\n2 3 4 1",
+                exampleOutput: "4 1 2 3",
+                sol1: `# الحل الأساسي: تعيين موقع كل شخص بناءً على الرقم المدخل
+n = int(input())
+p = list(map(int, input().split()))
+
+ans = [0] * n
+for giver in range(1, n + 1):
+    receiver = p[giver - 1]
+    ans[receiver - 1] = giver
+
+print(*ans)`,
+                sol2: `# حل بديل: الفرز بناءً على قيم القائمة
+n = int(input())
+p = list(map(int, input().split()))
+ans = [i + 1 for i, v in sorted(enumerate(p), key=lambda x: x[1])]
+print(*ans)`
             }
         ];
 
@@ -429,7 +1116,10 @@ print(f"{longest} {len(longest)}")`
             card.innerHTML = `
                 <div class="problem-title">
                     <span>${p.title}</span>
-                    <span class="difficulty ${p.difficulty}">${p.difficultyText}</span>
+                    <div>
+                        ${p.link ? `<a href="${p.link}" target="_blank" class="problem-link">🔗 رابط المسألة</a>` : ''}
+                        <span class="difficulty ${p.difficulty}">${p.difficultyText}</span>
+                    </div>
                 </div>
                 
                 <div class="section-title">📌 نص المسألة:</div>
@@ -444,11 +1134,14 @@ print(f"{longest} {len(longest)}")`
                 <div class="section-title">🧪 مثال المدخلات والمخرجات:</div>
                 <div class="example-box">Input:\n${p.exampleInput}\n\nOutput:\n${p.exampleOutput}</div>
                 
-                <button class="toggle-btn" onclick="toggleSolution(${p.id})">👁️ إظهار الحل</button>
+                <button class="toggle-btn" onclick="toggleSolution(${p.id})">👁️ إظهار الحل والتوضيح</button>
                 
                 <div class="solution-box" id="sol-${p.id}">
-                    <div class="section-title" style="color: #34d399; margin-bottom: 8px;">💻 الحل بلغة Python:</div>
-                    <pre>${p.solution}</pre>
+                    <div class="sol-header">💻 الحل الأول (الأساسي مع التعليقات الشارحة):</div>
+                    <pre>${p.sol1}</pre>
+                    
+                    <div class="sol-header alt-header">💡 الحل الثاني (طريقة بديلة):</div>
+                    <pre class="alt-sol">${p.sol2}</pre>
                 </div>
             `;
             container.appendChild(card);
@@ -459,7 +1152,7 @@ print(f"{longest} {len(longest)}")`
             const btn = event.target;
             if (solBox.style.display === "block") {
                 solBox.style.display = "none";
-                btn.innerText = "👁️ إظهار الحل";
+                btn.innerText = "👁️ إظهار الحل والتوضيح";
                 btn.style.background = "#0284c7";
             } else {
                 solBox.style.display = "block";
