@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك المسائل | Quantum Elite 🧠</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #38bdf8;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .team-title {
+            color: #fb7185;
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #334155;
+            color: #f8fafc;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #475569;
+        }
+
+        .problems-list {
+            max-width: 850px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .problem-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .problem-title {
+            color: #38bdf8;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .difficulty {
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .easy { background: #065f46; color: #34d399; }
+        .medium { background: #854d0e; color: #facc15; }
+        .hard { background: #831843; color: #f472b6; }
+
+        .section-title {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-top: 14px;
+            margin-bottom: 4px;
+        }
+
+        .problem-text {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .example-box {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #334155;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            margin-bottom: 16px;
+            direction: ltr;
+            text-align: left;
+            white-space: pre-wrap;
+        }
+
+        .toggle-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: #0369a1;
+        }
+
+        .solution-box {
+            display: none;
+            margin-top: 16px;
+            background: #090d16;
+            border: 1px solid #10b981;
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+        }
+
+        .solution-box pre {
+            color: #34d399;
+            font-family: monospace;
+            font-size: 0.95rem;
+            direction: ltr;
+            text-align: left;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🧠 بنك مسائل التدريب للمسابقات</h1>
+        <div class="team-title">فريق Quantum Elite ⚡</div>
+        <a href="index.html" class="back-btn">⬅️ العودة للعداد التنازلي</a>
+    </div>
+
+    <div class="problems-list" id="problems-container"></div>
+
+    <script>
+        const problems = [
+            {
+                id: 1,
+                title: "1. قفزة الأرنب (Rabbit Jump)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "أرنب يقف عند النقطة 0 ويريد الوصول للمسافة Y. ط طول قفزة الأرنب الواحدة X. احسب أقل عدد من القفزات للوصول أو تجاوز المسافة Y.",
+                input: "عددين صحيحين X و Y تفصل بينهما مسافة.",
+                output: "عدد صحيح واحد يمثل عدد القفزات.",
+                exampleInput: "5 10",
+                exampleOutput: "2",
+                solution: `x, y = map(int, input().split())
+jumps = y // x
+if y % x != 0:
+    jumps += 1
+print(jumps)`
+            },
+            {
+                id: 2,
+                title: "2. الطالب المتميز (Top Student)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "يعطيك البرنامج عدد الطلاب N متبوعاً بأسمائهم ودرجاتهم. اطبع اسم الطالب صاحب أعلى درجة.",
+                input: "السطر الأول N، يليها N أسطر يحتوي كل سطر على اسم الطالب ودرجته.",
+                output: "اسم الطالب صاحب أعلى درجة.",
+                exampleInput: "3\nAhmed 85\nSaeed 92\nMona 78",
+                exampleOutput: "Saeed",
+                solution: `n = int(input())
+t = []
+for i in range(n):
+    name, score = input().split()
+    t.append([int(score), name])
+t.sort()
+print(t[-1][1])`
+            },
+            {
+                id: 3,
+                title: "3. أطول تتابع متتالي (Longest Streak)",
+                difficulty: "medium",
+                difficultyText: "متوسطة",
+                text: "يعطيك قائمة من N من الأرقام، احسب طول أطول سلسلة متتالية متصلة لنفس الرقم بدون انقطاع.",
+                input: "السطر الأول N، السطر الثاني يحتوي N من الأرقام.",
+                output: "طول أطول تتابع متصل.",
+                exampleInput: "7\n1 1 2 2 2 1 3",
+                exampleOutput: "3",
+                solution: `n = int(input())
+numbers = list(map(int, input().split()))
+cs = ms = 1
+for i in range(1, n):
+    if numbers[i] == numbers[i - 1]:
+        cs += 1
+    else:
+        cs = 1
+    ms = max(ms, cs)
+print(ms)`
+            },
+            {
+                id: 4,
+                title: "4. مجموع الأعداد الزوجية (Even Sum)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "اكتب برنامجاً يقرأ قائمة من N من الأرقام ويحسب مجموع الأعداد الزوجية فقط فيها.",
+                input: "السطر الأول N، السطر الثاني يحتوي N أرقام.",
+                output: "مجموع الأرقام الزوجية.",
+                exampleInput: "5\n1 2 3 4 6",
+                exampleOutput: "12",
+                solution: `n = int(input())
+nums = list(map(int, input().split()))
+even_sum = sum(x for x in nums if x % 2 == 0)
+print(even_sum)`
+            },
+            {
+                id: 5,
+                title: "5. الجملة العكسية (Reverse Sentence)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "اعكس ترتيب الكلمات في جملة معطاة مع الحفاظ على الكلمات كما هي.",
+                input: "نص يحتوي على كلمات تفصلها مساحات.",
+                output: "الجملة بعد العكس.",
+                exampleInput: "Dhofar Competitive Programming Contest",
+                exampleOutput: "Contest Programming Competitive Dhofar",
+                solution: `words = input().split()
+print(" ".join(words[::-1]))`
+            },
+            {
+                id: 6,
+                title: "6. أقصى عنصر وموقعه (Max Element & Index)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "جد أكبر قيمة في القائمة واطبع قيمتها وموقعها (1-based index). في حال التكرار اطبع أول موقع.",
+                input: "السطر الأول N، السطر الثاني N أرقام.",
+                output: "القيمة ثم موقعها تفصلهما مسافة.",
+                exampleInput: "4\n10 50 30 50",
+                exampleOutput: "50 2",
+                solution: `n = int(input())
+nums = list(map(int, input().split()))
+max_val = max(nums)
+idx = nums.index(max_val) + 1
+print(f"{max_val} {idx}")`
+            },
+            {
+                id: 7,
+                title: "7. الأرقام الفريدة (Unique Elements)",
+                difficulty: "medium",
+                difficultyText: "متوسطة",
+                text: "اطبع العناصر بدون تكرار وبنفس ترتيب ظهورها الأول في المدخلات.",
+                input: "السطر الأول N، السطر الثاني N أرقام.",
+                output: "الأرقام فريدة تفصلها مسافات.",
+                exampleInput: "6\n4 5 4 2 5 1",
+                exampleOutput: "4 5 2 1",
+                solution: `n = int(input())
+nums = list(map(int, input().split()))
+seen = set()
+res = []
+for x in nums:
+    if x not in seen:
+        seen.add(x)
+        res.append(x)
+print(*res)`
+            },
+            {
+                id: 8,
+                title: "8. هل الكلمة بيلاندروم؟ (Palindrome Check)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "تحقق هل النص يقرأ من اليمين إلى اليسار مثل اليسار إلى اليمين (Case-insensitive).",
+                input: "نص مكون من كلمة واحدة.",
+                output: "اطبع YES أو NO.",
+                exampleInput: "Radar",
+                exampleOutput: "YES",
+                solution: `s = input().strip().lower()
+if s == s[::-1]:
+    print("YES")
+else:
+    print("NO")`
+            },
+            {
+                id: 9,
+                title: "9. المجموع التراكمي (Prefix Sum)",
+                difficulty: "medium",
+                difficultyText: "متوسطة",
+                text: "احسب قائمة المجموع التراكمي لقائمة أرقام معطاة.",
+                input: "السطر الأول N، السطر الثاني N أرقام.",
+                output: "عناصر المجموع التراكمي تفصلها مسافات.",
+                exampleInput: "4\n1 2 3 4",
+                exampleOutput: "1 3 6 10",
+                solution: `n = int(input())
+nums = list(map(int, input().split()))
+pref = []
+curr = 0
+for x in nums:
+    curr += x
+    pref.append(curr)
+print(*pref)`
+            },
+            {
+                id: 10,
+                title: "10. تدوير القائمة (Rotate Array)",
+                difficulty: "medium",
+                difficultyText: "متوسطة",
+                text: "قم بتدوير القائمة نحو اليمين K خطوة.",
+                input: "السطر الأول N و K، السطر الثاني N أرقام.",
+                output: "القائمة بعد التدوير.",
+                exampleInput: "5 2\n1 2 3 4 5",
+                exampleOutput: "4 5 1 2 3",
+                solution: `n, k = map(int, input().split())
+nums = list(map(int, input().split()))
+k %= n
+res = nums[-k:] + nums[:-k] if k != 0 else nums
+print(*res)`
+            },
+            {
+                id: 11,
+                title: "11. المفقود في التتابع (Missing Number)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "يعطيك قائمة تحتوي N-1 أرقام مختلفة في النطاق من 1 إلى N. جد الرقم المفقود.",
+                input: "السطر الأول N، السطر الثاني N-1 أرقام.",
+                output: "الرقم المفقود.",
+                exampleInput: "5\n1 2 4 5",
+                exampleOutput: "3",
+                solution: `n = int(input())
+nums = list(map(int, input().split()))
+expected_sum = n * (n + 1) // 2
+actual_sum = sum(nums)
+print(expected_sum - actual_sum)`
+            },
+            {
+                id: 12,
+                title: "12. عد الحروف المتحركة (Count Vowels)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "احسب عدد حروف العلة (a, e, i, o, u) في نص معطى.",
+                input: "نص مكون من عدة كلمات.",
+                output: "عدد حروف العلة.",
+                exampleInput: "Hello World",
+                exampleOutput: "3",
+                solution: `s = input().lower()
+vowels = "aeiou"
+cnt = sum(1 for char in s if char in vowels)
+print(cnt)`
+            },
+            {
+                id: 13,
+                title: "13. الزوج المستهدف (Two Sum)",
+                difficulty: "medium",
+                difficultyText: "متوسطة",
+                text: "جد هل يوجد عنصرين في القائمة مجموعهما يساوي القيمة Target.",
+                input: "السطر الأول N و Target، السطر الثاني N أرقام.",
+                output: "YES إذا وجد أو NO إذا لم يوجد.",
+                exampleInput: "4 9\n2 7 11 15",
+                exampleOutput: "YES",
+                solution: `n, target = map(int, input().split())
+nums = list(map(int, input().split()))
+seen = set()
+found = False
+for x in nums:
+    if target - x in seen:
+        found = True
+        break
+    seen.add(x)
+print("YES" if found else "NO")`
+            },
+            {
+                id: 14,
+                title: "14. المضروب التكراري (Factorial)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "احسب قيمة N! (مضروب العدد N).",
+                input: "عدد صحيح N حيث (0 <= N <= 12).",
+                output: "قيمة المضروب.",
+                exampleInput: "5",
+                exampleOutput: "120",
+                solution: `import math
+n = int(input())
+print(math.factorial(n))`
+            },
+            {
+                id: 15,
+                title: "15. أطول كلمة في النص (Longest Word)",
+                difficulty: "easy",
+                difficultyText: "سهلة",
+                text: "جد أطول كلمة في جملة وطولها. في حال التساوي اختر الأولى.",
+                input: "جملة نصية.",
+                output: "الكلمة وطولها تفصلهما مسافة.",
+                exampleInput: "Competitive Programming Is Amazing",
+                exampleOutput: "Competitive 11",
+                solution: `words = input().split()
+longest = max(words, key=len)
+print(f"{longest} {len(longest)}")`
+            }
+        ];
+
+        const container = document.getElementById('problems-container');
+
+        problems.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'problem-card';
+            card.innerHTML = `
+                <div class="problem-title">
+                    <span>${p.title}</span>
+                    <span class="difficulty ${p.difficulty}">${p.difficultyText}</span>
+                </div>
+                
+                <div class="section-title">📌 نص المسألة:</div>
+                <div class="problem-text">${p.text}</div>
+                
+                <div class="section-title">📥 المدخلات:</div>
+                <div class="problem-text">${p.input}</div>
+                
+                <div class="section-title">📤 المخرجات:</div>
+                <div class="problem-text">${p.output}</div>
+                
+                <div class="section-title">🧪 مثال المدخلات والمخرجات:</div>
+                <div class="example-box">Input:\n${p.exampleInput}\n\nOutput:\n${p.exampleOutput}</div>
+                
+                <button class="toggle-btn" onclick="toggleSolution(${p.id})">👁️ إظهار الحل</button>
+                
+                <div class="solution-box" id="sol-${p.id}">
+                    <div class="section-title" style="color: #34d399; margin-bottom: 8px;">💻 الحل بلغة Python:</div>
+                    <pre>${p.solution}</pre>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        function toggleSolution(id) {
+            const solBox = document.getElementById(`sol-${id}`);
+            const btn = event.target;
+            if (solBox.style.display === "block") {
+                solBox.style.display = "none";
+                btn.innerText = "👁️ إظهار الحل";
+                btn.style.background = "#0284c7";
+            } else {
+                solBox.style.display = "block";
+                btn.innerText = "🙈 إخفاء الحل";
+                btn.style.background = "#475569";
+            }
+        }
+    </script>
+</body>
+</html>

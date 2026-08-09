@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العداد التنازلي | مسابقة ظفار للبرمجة 🚀</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            padding: 35px 30px;
+            border-radius: 32px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            border: 2px solid;
+            position: relative;
+        }
+
+        .logo-box {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-img {
+            max-width: 220px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.15));
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 16px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 900;
+        }
+
+        p.subtitle {
+            opacity: 0.85;
+            font-size: 1rem;
+            margin-bottom: 28px;
+            font-weight: 700;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .time-box {
+            padding: 18px 12px;
+            border-radius: 24px;
+            min-width: 90px;
+            flex: 1;
+            border: 2px solid;
+            transition: transform 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-4px);
+        }
+
+        .number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .label {
+            font-size: 0.85rem;
+            margin-top: 6px;
+            font-weight: 700;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid currentColor;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 👑 اسم الفريق تحت */
+        .team-footer {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .status-msg {
+            display: none;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* الثيمات */
+        body.theme-pink { background-color: #fff0f5; color: #5c3d46; }
+        .theme-pink .container { background: #ffffff; border-color: #fecdd3; box-shadow: 0 15px 35px rgba(235, 150, 180, 0.25); }
+        .theme-pink h1 { color: #fb7185; }
+        .theme-pink .time-box { background: #fff1f2; border-color: #ffe4e6; }
+        .theme-pink .number { color: #e11d48; }
+        .theme-pink .label { color: #be123c; }
+
+        body.theme-blue { background-color: #0f172a; color: #f8fafc; }
+        .theme-blue .container { background: #1e293b; border-color: #334155; box-shadow: 0 20px 25px rgba(0,0,0,0.5); }
+        .theme-blue h1 { color: #38bdf8; }
+        .theme-blue .time-box { background: #0f172a; border-color: #334155; }
+        .theme-blue .number { color: #38bdf8; }
+        .theme-blue .label { color: #94a3b8; }
+
+        body.theme-black { background-color: #000000; color: #ffffff; }
+        .theme-black .container { background: #121212; border-color: #27272a; box-shadow: 0 0 20px rgba(255,255,255,0.05); }
+        .theme-black h1 { color: #ffffff; }
+        .theme-black .time-box { background: #18181b; border-color: #27272a; }
+        .theme-black .number { color: #f43f5e; }
+        .theme-black .label { color: #a1a1aa; }
+
+        body.theme-white { background-color: #f8fafc; color: #0f172a; }
+        .theme-white .container { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .theme-white h1 { color: #0284c7; }
+        .theme-white .time-box { background: #f1f5f9; border-color: #e2e8f0; }
+        .theme-white .number { color: #0f172a; }
+        .theme-white .label { color: #64748b; }
+
+        body.theme-red { background-color: #450a0a; color: #fef2f2; }
+        .theme-red .container { background: #7f1d1d; border-color: #b91c1c; box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+        .theme-red h1 { color: #fca5a5; }
+        .theme-red .time-box { background: #991b1b; border-color: #dc2626; }
+        .theme-red .number { color: #ffffff; }
+        .theme-red .label { color: #fecaca; }
+
+        body.theme-yellow { background-color: #fefce8; color: #713f12; }
+        .theme-yellow .container { background: #ffffff; border-color: #fef08a; box-shadow: 0 15px 30px rgba(234, 179, 8, 0.15); }
+        .theme-yellow h1 { color: #ca8a04; }
+        .theme-yellow .time-box { background: #fef9c3; border-color: #fef08a; }
+        .theme-yellow .number { color: #a16207; }
+        .theme-yellow .label { color: #854d0e; }
+
+        body.theme-green { background-color: #f0fdf4; color: #14532d; }
+        .theme-green .container { background: #ffffff; border-color: #bbf7d0; box-shadow: 0 15px 30px rgba(34, 197, 94, 0.15); }
+        .theme-green h1 { color: #16a34a; }
+        .theme-green .time-box { background: #dc26260d; border-color: #bbf7d0; }
+        .theme-green .number { color: #15803d; }
+        .theme-green .label { color: #166534; }
+
+        body.theme-purple { background-color: #faf5ff; color: #581c87; }
+        .theme-purple .container { background: #ffffff; border-color: #e9d5ff; box-shadow: 0 15px 30px rgba(168, 85, 247, 0.15); }
+        .theme-purple h1 { color: #9333ea; }
+        .theme-purple .time-box { background: #f3e8ff; border-color: #e9d5ff; }
+        .theme-purple .number { color: #7e22ce; }
+        .theme-purple .label { color: #6b21a8; }
+
+        body.theme-orange { background-color: #fff7ed; color: #7c2d12; }
+        .theme-orange .container { background: #ffffff; border-color: #ffedd5; box-shadow: 0 15px 30px rgba(249, 115, 22, 0.15); }
+        .theme-orange h1 { color: #ea580c; }
+        .theme-orange .time-box { background: #ffedd5; border-color: #fed7aa; }
+        .theme-orange .number { color: #c2410c; }
+        .theme-orange .label { color: #9a3412; }
+
+        body.theme-beige { background-color: #fdfbf7; color: #443e37; }
+        .theme-beige .container { background: #f5f0eb; border-color: #e6dfd5; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05); }
+        .theme-beige h1 { color: #8c6d58; }
+        .theme-beige .time-box { background: #eae3d9; border-color: #dfd5c6; }
+        .theme-beige .number { color: #5c4738; }
+        .theme-beige .label { color: #735c4a; }
+
+        body.theme-brown { background-color: #24140e; color: #f5ebe6; }
+        .theme-brown .container { background: #3b2219; border-color: #573327; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+        .theme-brown h1 { color: #d7ccc8; }
+        .theme-brown .time-box { background: #4e2d22; border-color: #6a3e30; }
+        .theme-brown .number { color: #ffccbc; }
+        .theme-brown .label { color: #bcaaa4; }
+
+        body.theme-olive { background-color: #1a2310; color: #f0f4eb; }
+        .theme-olive .container { background: #2c381c; border-color: #405228; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+        .theme-olive h1 { color: #a3e635; }
+        .theme-olive .time-box { background: #3b4a25; border-color: #526733; }
+        .theme-olive .number { color: #bef264; }
+        .theme-olive .label { color: #a3e635; }
+
+        body.theme-turquoise { background-color: #ecfeff; color: #164e63; }
+        .theme-turquoise .container { background: #ffffff; border-color: #a5f3fc; box-shadow: 0 15px 30px rgba(6, 182, 212, 0.15); }
+        .theme-turquoise h1 { color: #0891b2; }
+        .theme-turquoise .time-box { background: #cffaff; border-color: #a5f3fc; }
+        .theme-turquoise .number { color: #0e7490; }
+        .theme-turquoise .label { color: #155e75; }
+
+        body.theme-rgb {
+            animation: rgbBg 0.6s infinite alternate linear;
+            color: #ffffff !important;
+        }
+        .theme-rgb .container {
+            background: rgba(0, 0, 0, 0.85);
+            animation: rgbGlow 0.4s infinite alternate ease-in-out;
+        }
+        .theme-rgb h1 { animation: rgbText 0.3s infinite alternate; }
+        .theme-rgb .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            animation: rgbBorder 0.5s infinite alternate;
+        }
+        .theme-rgb .number { animation: rgbText 0.2s infinite alternate; }
+        .theme-rgb .label { color: #ffffff; }
+
+        @keyframes rgbBg {
+            0% { background-color: #ff0055; }
+            33% { background-color: #00e5ff; }
+            66% { background-color: #7600bc; }
+            100% { background-color: #ffea00; }
+        }
+        @keyframes rgbGlow {
+            0% { border-color: #00ffcc; box-shadow: 0 0 25px #00ffcc; }
+            50% { border-color: #ff00ff; box-shadow: 0 0 25px #ff00ff; }
+            100% { border-color: #ffff00; box-shadow: 0 0 25px #ffff00; }
+        }
+        @keyframes rgbText {
+            0% { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
+            50% { color: #ff007f; text-shadow: 0 0 10px #ff007f; }
+            100% { color: #55ff00; text-shadow: 0 0 10px #55ff00; }
+        }
+        @keyframes rgbBorder {
+            0% { border-color: #ff0000; }
+            50% { border-color: #00ff00; }
+            100% { border-color: #0000ff; }
+        }
+
+        @media (max-width: 480px) {
+            .countdown { gap: 10px; }
+            .time-box { min-width: 70px; padding: 14px 8px; border-radius: 18px; }
+            .number { font-size: 1.9rem; }
+            .label { font-size: 0.75rem; }
+            .logo-img { max-width: 170px; }
+        }
+    </style>
+</head>
+<body class="theme-pink">
+
+    <div class="container">
+        <div class="logo-box">
+            <img src="logo.png" alt="DCPC Logo" class="logo-img">
+        </div>
+
+        <h1>✨ العد التنازلي للمسابقة 🚀</h1>
+        <p class="subtitle">المتبقي حتى الثلاثاء الساعة 09:00 صباحاً 🌸</p>
+
+        <div class="countdown" id="timer">
+            <div class="time-box">
+                <div class="number" id="hours">00</div>
+                <div class="label">ساعة</div>
+            </div>
+            <div class="time-box">
+                <div class="number" id="minutes">00</div>
+                <div class="label">دقيقة</div>
+            </div>
+            <div class="time-box">
+                <div class="number" id="seconds">00</div>
+                <div class="label">ثانية</div>
+            </div>
+        </div>
+
+        <div class="action-btns">
+            <button class="btn" onclick="nextTheme()">🎨 تغيير الثيم: <span id="theme-name">وردي</span></button>
+            <a href="problems.html" class="btn">📝 أسئلة التدريب (15 مسألة)</a>
+        </div>
+
+        <!-- 👑 اسم الفريق -->
+        <div class="team-footer">
+            ⚡ Quantum Elite ⚡
+        </div>
+
+        <div class="status-msg" id="finished-msg">
+            🎉 حان الوقت المطلوب! بالتوفيق في المسابقة 💖
+        </div>
+    </div>
+
+    <script>
+        const themes = [
+            { id: 'theme-pink', name: 'وردي 🎀' },
+            { id: 'theme-blue', name: 'أزرق 💙' },
+            { id: 'theme-black', name: 'أسود 🖤' },
+            { id: 'theme-white', name: 'أبيض 🤍' },
+            { id: 'theme-red', name: 'أحمر ❤️' },
+            { id: 'theme-yellow', name: 'أصفر 💛' },
+            { id: 'theme-green', name: 'أخضر 💚' },
+            { id: 'theme-purple', name: 'بنفسجي 💜' },
+            { id: 'theme-orange', name: 'برتقالي 🧡' },
+            { id: 'theme-beige', name: 'بيج 🌾' },
+            { id: 'theme-brown', name: 'بني ☕' },
+            { id: 'theme-olive', name: 'زيتي 🫒' },
+            { id: 'theme-turquoise', name: 'تركوازي 🌊' },
+            { id: 'theme-rgb', name: '⚡ RGB حماس ⚡' }
+        ];
+
+        let currentThemeIndex = 0;
+
+        function nextTheme() {
+            document.body.classList.remove(themes[currentThemeIndex].id);
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            document.body.classList.add(themes[currentThemeIndex].id);
+            document.getElementById('theme-name').innerText = themes[currentThemeIndex].name;
+        }
+
+        function getNextTuesdayNineAM() {
+            const now = new Date();
+            const result = new Date();
+            let daysUntilTuesday = (2 - now.getDay() + 7) % 7;
+            
+            if (daysUntilTuesday === 0 && now.getHours() >= 9) {
+                daysUntilTuesday = 7;
+            }
+            
+            result.setDate(now.getDate() + daysUntilTuesday);
+            result.setHours(9, 0, 0, 0);
+            return result;
+        }
+
+        const targetTime = getNextTuesdayNineAM();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetTime.getTime() - now;
+
+            if (distance <= 0) {
+                document.getElementById('timer').style.display = 'none';
+                document.getElementById('finished-msg').style.display = 'block';
+                return;
+            }
+
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
