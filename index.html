@@ -55,6 +55,7 @@
             font-size: 1.8rem;
             margin-bottom: 8px;
             font-weight: 900;
+            position: relative;
         }
 
         p.subtitle {
@@ -78,6 +79,7 @@
             flex: 1;
             border: 2px solid;
             transition: transform 0.3s ease;
+            position: relative;
         }
 
         .time-box:hover {
@@ -88,6 +90,7 @@
             font-size: 2.5rem;
             font-weight: 900;
             line-height: 1.1;
+            position: relative;
         }
 
         .label {
@@ -123,13 +126,13 @@
             transform: scale(0.95);
         }
 
-        /* 👑 اسم الفريق تحت */
         .team-footer {
             margin-top: 15px;
             font-size: 1.1rem;
             font-weight: 900;
             letter-spacing: 1px;
             opacity: 0.9;
+            position: relative;
         }
 
         .status-msg {
@@ -139,7 +142,73 @@
             margin-top: 20px;
         }
 
+        /* ------------------------------------------------------------- */
+        /* ⚡ تأثير القليتش (Glitch Effect) - يتفعل عبر الكلاس .glitch-active */
+        /* ------------------------------------------------------------- */
+        
+        /* هز الحاوية الرئيسية */
+        .glitch-active .container {
+            animation: glitchContainer 0.25s infinite alternate ease-in-out;
+        }
+
+        /* أنيميشن النص مع طبقات الظلال الحمراء والزرقاء */
+        .glitch-active h1,
+        .glitch-active .number,
+        .glitch-active .team-footer {
+            animation: glitchText 0.2s infinite alternate;
+        }
+
+        /* ارتجاج مربعات الوقت */
+        .glitch-active .time-box {
+            animation: glitchBox 0.3s infinite alternate;
+        }
+
+        /* إطارات أنيميشن القليتش */
+        @keyframes glitchContainer {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitchText {
+            0% {
+                text-shadow: 2px 0 #ff0055, -2px 0 #00e5ff;
+                transform: skew(0deg);
+            }
+            20% {
+                text-shadow: -2px 0 #ff0055, 2px 0 #00e5ff;
+                transform: skew(-2deg);
+            }
+            40% {
+                text-shadow: 3px -1px #ff0055, -3px 1px #00e5ff;
+                transform: skew(1deg);
+            }
+            60% {
+                text-shadow: -1px 2px #ff0055, 1px -2px #00e5ff;
+                transform: skew(-1deg);
+            }
+            80% {
+                text-shadow: 2px 1px #ff0055, -2px -1px #00e5ff;
+                transform: skew(3deg);
+            }
+            100% {
+                text-shadow: -2px 0 #ff0055, 2px 0 #00e5ff;
+                transform: skew(0deg);
+            }
+        }
+
+        @keyframes glitchBox {
+            0% { border-color: inherit; }
+            50% { border-color: #ff0055; box-shadow: 0 0 10px #ff0055; }
+            100% { border-color: #00e5ff; box-shadow: 0 0 10px #00e5ff; }
+        }
+
+        /* ------------------------------------------------------------- */
         /* الثيمات */
+        /* ------------------------------------------------------------- */
         body.theme-pink { background-color: #fff0f5; color: #5c3d46; }
         .theme-pink .container { background: #ffffff; border-color: #fecdd3; box-shadow: 0 15px 35px rgba(235, 150, 180, 0.25); }
         .theme-pink h1 { color: #fb7185; }
@@ -361,13 +430,30 @@
 
         const targetTime = getNextTuesdayNineAM();
 
+        function checkGlitchTime() {
+            const now = new Date();
+            const isTuesday = (now.getDay() === 2);
+            const hours = now.getHours();
+
+            // الفحص: هل اليوم الثلاثاء و الوقت بين 7:00 صباحاً و 8:59:59 صباحاً؟
+            if (isTuesday && hours >= 7 && hours < 9) {
+                document.body.classList.add('glitch-active');
+            } else {
+                document.body.classList.remove('glitch-active');
+            }
+        }
+
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetTime.getTime() - now;
 
+            // تحديث فحص القليتش باستمرار
+            checkGlitchTime();
+
             if (distance <= 0) {
                 document.getElementById('timer').style.display = 'none';
                 document.getElementById('finished-msg').style.display = 'block';
+                document.body.classList.remove('glitch-active'); // إيقاف القليتش عند الانتهاء
                 return;
             }
 
